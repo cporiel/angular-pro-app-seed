@@ -1,28 +1,42 @@
-import { Component } from "@angular/core";
-import { FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Component, Output, EventEmitter } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+// import { EventEmitter } from 'events';
 
 @Component({
   selector: "auth-form",
   styleUrls: ["auth-form.component.scss"],
   template: `
     <div class="auth-form">
-      <form [formGroup] = "form" (ngSubmit)="onSubmit()">
-        <ng-content select="h1">  </ng-content>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <ng-content select="h1"> </ng-content>
         <label>
-          <input type="email" placeholder="adresse email" formControlName="email">
+          <input
+            type="email"
+            placeholder="adresse email"
+            formControlName="email"
+          />
         </label>
         <label>
           <input
-          type="password"
-          placeholder="mot de passe"
-          formControlName="password">
+            type="password"
+            placeholder="mot de passe"
+            formControlName="password"
+          />
         </label>
-        <ng-content select=".error">  </ng-content>
-        <div class = "auth-form__action">
+        <div class="error" *ngIf="emailFormat">
+          Invalid email format
+        </div>
+
+        <div class="error" *ngIf="passwordInvalid">
+          Password is required
+        </div>
+
+        <ng-content select=".error"> </ng-content>
+        <div class="auth-form__action">
           <ng-content select="button"></ng-content>
         </div>
 
-        <div class = "auth-form__toggle">
+        <div class="auth-form__toggle">
           <ng-content select="a"></ng-content>
         </div>
       </form>
@@ -30,11 +44,27 @@ import { FormBuilder, FormGroup, Validators} from '@angular/forms';
   `
 })
 export class AuthFormComponent {
-    form = this.fb.group({
-        email: ['', Validators.email],
-        password : ['', Validators.required]
-    })
-  constructor(private fb : FormBuilder) {}
+  @Output()
+  submitted = new EventEmitter<FormGroup>();
 
-  onSubmit() {}
+  form = this.fb.group({
+    email: ["", Validators.email],
+    password: ["", Validators.required]
+  });
+  constructor(private fb: FormBuilder) {}
+
+  onSubmit() {
+    if (this.form.valid) {
+      this.submitted.emit(this.form);
+    }
+  }
+  get passwordInvalid() {
+    const control = this.form.get("password");
+    return control.hasError("required") && control.touched;
+  }
+
+  get emailFormat() {
+    const control = this.form.get("email");
+    return control.hasError("email") && control.touched;
+  }
 }

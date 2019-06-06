@@ -32,12 +32,12 @@ export const ROUTES: Routes = [];
 })
 export class AppModule {}
  
-// var firebaseConfig = {
-//   apiKey: "AIzaSyDgEgCT-WxlLTT0x4SN2e1xjtKysjK4T9o",
-//   authDomain: "formationskwarel.firebaseapp.com",
-//   databaseURL: "https://formationskwarel.firebaseio.com",
-//   projectId: "formationskwarel",
-//   storageBucket: "formationskwarel.appspot.com",
-//   messagingSenderId: "149405741495",
-//   appId: "1:149405741495:web:8626efc3c161bae3"
-// };
+var firebaseConfig = {
+  apiKey: "AIzaSyDgEgCT-WxlLTT0x4SN2e1xjtKysjK4T9o",
+  authDomain: "formationskwarel.firebaseapp.com",
+  databaseURL: "https://formationskwarel.firebaseio.com",
+  projectId: "formationskwarel",
+  storageBucket: "formationskwarel.appspot.com",
+  messagingSenderId: "149405741495",
+  appId: "1:149405741495:web:8626efc3c161bae3"
+};
